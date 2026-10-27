@@ -1,0 +1,21 @@
+<fieldset class="quiz-question" data-question>
+  <legend>Вопрос</legend>
+  <%= question.hidden_field :id if question.object.persisted? %>
+  <%= question.hidden_field :position, data: { question_position: true } %>
+  <div class="field"><%= question.label :body, "Текст вопроса" %><%= question.text_area :body, rows: 3, required: true %></div>
+  <div class="field"><%= question.label :explanation, "Объяснение" %><%= question.text_area :explanation, rows: 2 %></div>
+  <%= question.fields_for :answer_options do |option| %>
+    <%= option.hidden_field :id if option.object.persisted? %>
+    <%= option.hidden_field :position %>
+    <div class="field">
+      <%= option.label :body, "Вариант #{option.index.to_i + 1}" %>
+      <%= option.text_field :body, required: true %>
+      <div class="admin-choice">
+        <%= option.check_box :correct, data: { action: "quiz-form#choose" } %>
+        <%= option.label :correct, "Правильный ответ" %>
+      </div>
+    </div>
+  <% end %>
+  <%= question.hidden_field :_destroy, value: "0", data: { question_destroy: true } %>
+  <button type="button" class="admin-button admin-button--danger" data-action="quiz-form#remove">Удалить вопрос</button>
+</fieldset>

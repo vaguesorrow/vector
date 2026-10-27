@@ -1,0 +1,47 @@
+@font-face {
+  font-family: "fyl";
+  src: url("fyl.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arial Narrow";
+  src: url("arialnarrow.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arial Narrow";
+  src: url("arialnarrow_italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arial Narrow";
+  src: url("arialnarrow_bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arial Narrow";
+  src: url("arialnarrow_bolditalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+body {
+  font-family: "Arial Narrow", Arial, Helvetica, sans-serif;
+}
+
+input, button, select, textarea {
+  font: inherit;
+}

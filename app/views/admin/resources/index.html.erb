@@ -1,0 +1,40 @@
+<div class="admin-page-heading">
+  <h1><%= resource_title %></h1>
+  <%= link_to url_for(action: :new, **resource_filters), class: "admin-button" do %>
+    Добавить <%= image_tag "black_arrow.svg", alt: "" %>
+  <% end %>
+</div>
+<% if @records.empty? %>
+  <div class="admin-empty">
+    <h2>Пока ничего нет</h2>
+    <p>Нажми «Добавить», чтобы создать первую запись.</p>
+  </div>
+<% else %>
+  <div class="admin-table" role="region" aria-label="<%= resource_title %>" tabindex="0">
+    <table>
+      <thead>
+        <tr><th scope="col">ID</th><th scope="col">Название</th><th scope="col">Действия</th></tr>
+      </thead>
+      <tbody>
+        <% @records.each do |record| %>
+          <tr>
+            <td class="admin-table__id"><%= record.id %></td>
+            <td class="admin-table__name"><%= admin_record_label(record) %></td>
+            <td>
+              <div class="admin-table__actions">
+                <% unless record.is_a?(Category) %>
+                  <%= link_to "Редактировать", url_for(action: :edit, id: record.id), class: "admin-button admin-button--secondary" %>
+                <% end %>
+                <%= button_to "Удалить", url_for(action: :destroy, id: record.id), method: :delete, class: "admin-button admin-button--danger", form: { data: { turbo_confirm: "Удалить запись?" } } %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+<div class="pagination">
+  <% if @page > 1 %><%= link_to "← Назад", url_for(action: :index, **resource_filters, page: @page - 1), class: "admin-button admin-button--secondary" %><% end %>
+  <% if @more %><%= link_to "Далее →", url_for(action: :index, **resource_filters, page: @page + 1), class: "admin-button admin-button--secondary" %><% end %>
+</div>

@@ -1,0 +1,17 @@
+<section class="admin-quiz" data-controller="quiz-form">
+  <h2>Вопросы</h2>
+  <p>У каждого вопроса ровно 4 варианта ответа и один правильный. После появления попыток можно исправлять текст, но нельзя менять структуру и правильность ответов.</p>
+  <div data-quiz-form-target="questions">
+    <%= form.fields_for :quiz_questions do |question| %>
+      <%= render "admin/quizzes/question", question: question %>
+    <% end %>
+  </div>
+  <template data-quiz-form-target="template">
+    <% draft = QuizQuestion.new(position: 0) %>
+    <% 4.times { |i| draft.answer_options.build(position: i, correct: i.zero?) } %>
+    <%= form.fields_for :quiz_questions, draft, child_index: "NEW_QUESTION" do |question| %>
+      <%= render "admin/quizzes/question", question: question %>
+    <% end %>
+  </template>
+  <button type="button" class="admin-button admin-button--secondary" data-action="quiz-form#add">Добавить вопрос</button>
+</section>

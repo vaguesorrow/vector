@@ -1,0 +1,15 @@
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <%= link_to root_path, class: "site-footer__logo", aria: { label: "Вектор — на главную" } do %>
+      <%= render "shared/brand", black: true %>
+    <% end %>
+    <p class="site-footer__author">Алина Мочалова</p>
+    <%= link_to "@vaguesorrow", "https://t.me/vaguesorrow", class: "site-footer__contact" %>
+    <%= link_to "о проекте", about_path, class: "site-footer__about" %>
+    <%= link_to "https://t.me/vector_alma", class: "site-footer__telegram" do %>
+      <span>telegram</span>
+      <%= image_tag "black_arrow.svg", alt: "", class: "design-arrow" %>
+    <% end %>
+    <p class="site-footer__copyright">©вектор, 2026</p>
+  </div>
+</footer>

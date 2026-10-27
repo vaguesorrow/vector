@@ -1,0 +1,27 @@
+<div class="admin-page-heading">
+  <div>
+    <p class="admin-eyebrow">редакция вектора</p>
+    <h1>Управление контентом</h1>
+    <p class="admin-description">Создавай материалы, объединяй их в категории и собирай тесты.</p>
+  </div>
+</div>
+<div class="admin-dashboard">
+  <%= link_to admin_articles_path, class: "admin-dashboard__card" do %>
+    <span class="admin-dashboard__number">01</span>
+    <h2>Статьи</h2>
+    <p>Тексты, обложки и публикация материалов.</p>
+    <span class="admin-dashboard__link">к статьям <%= image_tag "black_arrow.svg", alt: "" %></span>
+  <% end %>
+  <%= link_to admin_categories_path, class: "admin-dashboard__card" do %>
+    <span class="admin-dashboard__number">02</span>
+    <h2>Категории</h2>
+    <p>Темы, которые помогают ориентироваться в статьях.</p>
+    <span class="admin-dashboard__link">к категориям <%= image_tag "black_arrow.svg", alt: "" %></span>
+  <% end %>
+  <%= link_to admin_quizzes_path, class: "admin-dashboard__card" do %>
+    <span class="admin-dashboard__number">03</span>
+    <h2>Тесты</h2>
+    <p>Вопросы, четыре варианта ответа и один правильный.</p>
+    <span class="admin-dashboard__link">к тестам <%= image_tag "black_arrow.svg", alt: "" %></span>
+  <% end %>
+</div>

@@ -1,0 +1,30 @@
+<p class="admin-back"><%= link_to "← #{resource_title}", url_for(action: :index) %></p>
+<div class="admin-page-heading">
+  <h1><%= @record.persisted? ? "Редактирование" : "Добавление" %> · <%= resource_title %></h1>
+</div>
+<% if @record.errors.any? %>
+  <div class="alert" role="alert"><h2>Не удалось сохранить</h2>
+    <ul><% @record.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
+  </div>
+<% end %>
+<%= form_with model: [:admin, @record], class: "admin-editor" do |form| %>
+  <% resource_fields.each do |name, label, type| %>
+    <div class="field<%= " field--checkbox" if type == "boolean" %>">
+      <%= form.label name, label %>
+      <% if type == "textarea" %><%= form.text_area name, rows: name == :body ? 12 : 4 %>
+      <% elsif type == "boolean" %><%= form.check_box name %>
+      <% elsif type == "number" %><%= form.number_field name, min: 0 %>
+      <% elsif type == "date" %><%= form.date_field name %>
+      <% elsif type == "datetime" %><%= form.datetime_local_field name %>
+      <% elsif type == "text" %><%= form.text_field name %>
+      <% else %>
+        <%= form.select name, admin_field_options(type), { include_blank: !type.end_with?("[]") }, { multiple: type.end_with?("[]") } %>
+      <% end %>
+    </div>
+  <% end %>
+  <%= render "admin/quizzes/questions", form: form if @record.is_a?(Quiz) %>
+  <div class="admin-form-actions">
+    <%= form.submit "Сохранить", class: "admin-button" %>
+    <%= link_to "Вернуться к списку", url_for(action: :index), class: "admin-button admin-button--secondary" %>
+  </div>
+<% end %>

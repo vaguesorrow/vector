@@ -1,0 +1,76 @@
+<% content_for :title, "О проекте — Вектор" %>
+<div class="about-page">
+  <header class="site-header about-header">
+    <%= link_to root_path, class: "site-header__logo", aria: { label: "Вектор — на главную" } do %>
+      <%= render "shared/brand" %>
+    <% end %>
+    <nav class="site-header__nav about-header__desktop" aria-label="Основная навигация">
+      <% if user_signed_in? && current_user.admin? %><%= link_to "Администрирование", admin_root_path %><% end %>
+      <%= link_to about_path, class: "site-header__about", aria: { current: "page" } do %>
+        <span>о проекте</span><%= image_tag "black_arrow.svg", alt: "", class: "design-arrow" %>
+      <% end %>
+    </nav>
+    <details class="about-menu">
+      <summary>о проекте <%= image_tag "black_arrow.svg", alt: "", class: "design-arrow" %></summary>
+      <nav aria-label="Мобильная навигация">
+        <%= link_to "На главную", root_path %>
+        <%= link_to "О проекте", about_path, aria: { current: "page" } %>
+        <% if user_signed_in? && current_user.admin? %><%= link_to "Администрирование", admin_root_path %><% end %>
+      </nav>
+    </details>
+  </header>
+
+  <main>
+    <section class="about-intro" aria-labelledby="about-title">
+      <h1 id="about-title">я(мы) команда вектор</h1>
+      <p class="about-intro__description">Медиа-сервис для иностранных абитуриентов, поступащих в РФ. Помогаем разобраться в поступлении в российский вуз, документах <br class="about-desktop-break">и первых месяцах учёбы.</p>
+      <div class="about-pattern" aria-hidden="true">
+        <%= image_tag "about-pattern.svg", alt: "" %>
+      </div>
+      <%= link_to root_path, class: "about-button about-button--start" do %>
+        <span>задать вектор поступления</span>
+        <%= image_tag "black_arrow.svg", alt: "", class: "design-arrow" %>
+      <% end %>
+    </section>
+
+    <section class="about-journey" aria-labelledby="about-journey-title">
+      <h2 id="about-journey-title">Между «хочу поступить» и первой парой</h2>
+      <div class="about-steps">
+        <article class="about-step">
+          <h3>Не можешь выбрать старт?</h3>
+          <p>вступительные, олимпиады, ЕГЭ, квота. объясняем, какие пути существуют и где уточнить условия</p>
+        </article>
+        <div class="about-step-arrow" aria-hidden="true">
+          <%= image_tag "about-step-arrow.svg", alt: "" %>
+        </div>
+        <article class="about-step">
+          <h3>Боишься сделать ошибку?</h3>
+          <p>что подготовить для подачи заявления, где понадобится перевод и какие вопросы задать приёмной комиссии</p>
+        </article>
+        <div class="about-step-arrow" aria-hidden="true">
+          <%= image_tag "about-step-arrow.svg", alt: "" %>
+        </div>
+        <article class="about-step">
+          <h3>Пугает взрослая жизнь?</h3>
+          <p>общежитие, оформление документов и университетский быт. рассказываем, что предстоит решить до начала учёбы.</p>
+        </article>
+      </div>
+      <p class="about-journey__description">Поможем и подскажем на каждом этапе твоего пути. Объединяем информацию из разных источников, объясняем термины и даём ссылки на официальные требования. Указываем, где условия зависят от вуза и твоей ситуации.</p>
+    </section>
+
+    <section class="about-founder" aria-labelledby="about-founder-title">
+      <h2 id="about-founder-title">От тех, кто уже прошел этот путь</h2>
+      <div class="about-founder__story">
+        <p class="about-founder__description">Меня зовут Алина, я студентка 3 курса Школы дизайна НИУ ВШЭ. Родилась и выросла в Казахстане и поступила в ВУЗ по олимпиаде МОМ. На личном опыте столкнулась с проблемами, в том числе <br class="about-desktop-break">и миграционными, и теперь хочу помочь вам избежать типичных ошибок.</p>
+        <div class="about-portrait">
+          <%= image_tag "about-author.png", alt: "Алина Мочалова — автор проекта Вектор" %>
+        </div>
+      </div>
+      <p class="about-founder__invitation">Если ты иностранный студент, обучающийся в РФ и ты хочешь помочь будущим студентам, присоединяйся к команде вектора</p>
+      <%= link_to "https://t.me/vaguesorrow", class: "about-button about-button--apply" do %>
+        <span>подать заявку</span>
+        <%= image_tag "black_arrow.svg", alt: "", class: "design-arrow" %>
+      <% end %>
+    </section>
+  </main>
+</div>

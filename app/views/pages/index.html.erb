@@ -1,0 +1,52 @@
+<% content_for :title, "Вектор — скоро запуск" %>
+<div class="home-page">
+  <header class="site-header">
+    <%= link_to root_path, class: "site-header__logo", aria: { label: "Вектор — на главную" } do %>
+      <%= render "shared/brand" %>
+    <% end %>
+    <nav class="site-header__nav" aria-label="Основная навигация">
+      <% if user_signed_in? && current_user.admin? %>
+        <%= link_to "Администрирование", admin_root_path %>
+      <% end %>
+      <%= link_to about_path, class: "site-header__about" do %>
+        <span>о проекте</span><%= image_tag "black_arrow.svg", alt: "", class: "design-arrow" %>
+      <% end %>
+    </nav>
+  </header>
+
+  <main class="home-hero">
+    <div class="home-hero__copy">
+      <h1>Медиа-сервис для иностранцев, поступающих в РФ</h1>
+      <p class="home-hero__description">Хочешь поступить в РФ, но не знаешь как? Боишься пропустить дедлайн или совершить ошибку в документах? Мы собираем сервис, чтобы эти проблемы тебя больше не беспокоили. Соберем все этапы поступления в персональный машрут. Скоро запуск, не пропусти.</p>
+
+      <section id="home-subscribe" class="home-subscribe" aria-label="Узнать о запуске">
+        <%= form_with url: subscribers_path, method: :post, class: "home-subscribe__form" do %>
+          <div class="home-subscribe__controls">
+            <%= label_tag "home-email", "Твой email", class: "visually-hidden" %>
+            <%= email_field_tag :email, nil, id: "home-email", placeholder: "твой email", autocomplete: "email", required: true %>
+            <%= button_tag type: "submit", class: "home-subscribe__submit" do %>
+              <span>узнать о запуске</span><%= image_tag "black_arrow.svg", alt: "", class: "design-arrow" %>
+            <% end %>
+          </div>
+          <div class="home-subscribe__consents">
+            <label class="home-subscribe__consent" for="home-consent">
+              <%= check_box_tag :consent, "1", false, id: "home-consent", required: true %>
+              <span>Я согласен на сбор и обработку персональных данных</span>
+            </label>
+            <label class="home-subscribe__consent" for="home-marketing-consent">
+              <%= check_box_tag :marketing_consent, "1", false, id: "home-marketing-consent", required: true%>
+              <span>Я согласен на получение информационной и рекламной рассылки</span>
+            </label>
+          </div>
+        <% end %>
+        <% if notice.present? %><p class="home-subscribe__notice" role="status"><%= notice %></p><% end %>
+        <% if alert.present? %><p class="home-subscribe__alert" role="alert"><%= alert %></p><% end %>
+      </section>
+    </div>
+
+    <div class="home-art" aria-hidden="true">
+      <%= image_tag "student card.svg", alt: "", class: "home-art__student", width: 489, height: 489, fetchpriority: "high" %>
+      <%= image_tag "migration-card.png", alt: "", class: "home-art__migration", width: 266, height: 428 %>
+    </div>
+  </main>
+</div>
