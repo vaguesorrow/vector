@@ -5,17 +5,17 @@ class SubscribersController < ApplicationController
       return
     end
 
-    subscriber = Subscriber.new(email: params[:email].to_s.strip.downcase,
-      personal_data_consent_at: Time.current,
-      marketing_consent_at: params[:marketing_consent] == "1" ? Time.current : nil)
+    existing = NewsletterSubscriber.exists?(email: params[:email].to_s.strip.downcase)
+    NewsletterSubscriber.subscribe!(email: params[:email].to_s,
+      personal_data_consent: true, marketing_consent: params[:marketing_consent] == "1")
 
-    if subscriber.save
-      redirect_to root_path, notice: "Спасибо! Вы подписались.", status: :see_other
-    elsif subscriber.errors.of_kind?(:email, :taken)
+    if existing
       already_subscribed
     else
-      subscription_failed
+      redirect_to root_path, notice: "Спасибо! Вы подписались.", status: :see_other
     end
+  rescue ActiveRecord::RecordInvalid
+    subscription_failed
   rescue ActiveRecord::RecordNotUnique
     already_subscribed
   end

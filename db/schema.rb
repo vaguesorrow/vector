@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_27_040000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_28_000000) do
   create_table "answer_options", force: :cascade do |t|
     t.bigint "quiz_question_id", null: false
     t.text "body", null: false
@@ -79,7 +79,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_27_040000) do
 
   create_table "newsletter_subscribers", force: :cascade do |t|
     t.string "email", null: false
-    t.datetime "personal_data_consent_at", null: false
+    t.datetime "personal_data_consent_at"
     t.datetime "marketing_consent_at"
     t.datetime "unsubscribed_at"
     t.datetime "created_at", null: false
@@ -144,15 +144,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_27_040000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_quizzes_on_article_id"
-  end
-
-  create_table "subscribers", force: :cascade do |t|
-    t.string "email", null: false, collation: "NOCASE"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "personal_data_consent_at"
-    t.datetime "marketing_consent_at"
-    t.index ["email"], name: "index_subscribers_on_email", unique: true
   end
 
   create_table "users", force: :cascade do |t|
