@@ -15,10 +15,6 @@ bin/rails server
 
 ## Администрирование
 
-`/admin` доступен только пользователям с ролью `admin`. Чтобы назначить эту роль уже зарегистрированному аккаунту, откройте `bin/rails console` и выполните:
-
-```ruby
-User.find_by!(email: "your-email@example.com").update!(role: :admin)
-```
+`/admin` доступен только пользователям с ролью `admin`.
 
 
