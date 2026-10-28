@@ -1,0 +1,27 @@
+<header class="site-header">
+  <%= link_to root_path, class: "site-header__logo", aria: { label: "Вектор — на главную" } do %>
+    <%= render "shared/brand" %>
+  <% end %>
+  <nav class="site-header__nav" aria-label="Основная навигация">
+    <%= link_to about_path, class: "site-header__about" do %>
+      <span>о проекте</span><%= image_tag "black_arrow.svg", alt: "", class: "design-arrow" %>
+    <% end %>
+  </nav>
+</header>
+<main class="auth-main">
+  <section class="auth-intro" aria-labelledby="auth-title">
+    <p class="auth-eyebrow">твой вектор поступления</p>
+    <h1 id="auth-title"><%= heading %></h1>
+    <p class="auth-description"><%= description %></p>
+    <%= image_tag "about-pattern.svg", alt: "", class: "auth-pattern", aria: { hidden: true } %>
+  </section>
+  <section class="auth-panel" aria-label="<%= form_label %>">
+    <% if flash[:alert].present? %>
+      <div class="auth-message" role="alert"><%= flash[:alert] %></div>
+    <% end %>
+    <% if flash[:notice].present? %>
+      <div class="auth-message" role="status"><%= flash[:notice] %></div>
+    <% end %>
+    <%= yield %>
+  </section>
+</main>

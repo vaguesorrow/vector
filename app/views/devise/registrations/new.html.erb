@@ -1,34 +1,28 @@
-<h2>Sign up</h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :display_name, "Имя" %><br />
-    <%= f.text_field :display_name, required: true, autocomplete: "name" %>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :password %></p>
-    <% if @minimum_password_length %>
-      <p><em>(<%= @minimum_password_length %> characters minimum)</em></p>
+<% content_for :title, "Регистрация — Вектор" %>
+<%= render layout: "devise/shared/auth_frame", locals: { heading: "задай свой вектор", description: "Создай аккаунт и начни свой путь к поступлению в российский вуз.", form_label: "Регистрация аккаунта" } do %>
+  <h2>создать аккаунт</h2>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "auth-form" }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="auth-field">
+      <%= f.label :display_name, "Имя" %>
+      <%= f.text_field :display_name, required: true, autofocus: true, autocomplete: "name" %>
+    </div>
+    <div class="auth-field">
+      <%= f.label :email, "Электронная почта" %>
+      <%= f.email_field :email, required: true, autocomplete: "email" %>
+    </div>
+    <div class="auth-field">
+      <%= f.label :password, "Пароль" %>
+      <%= f.password_field :password, required: true, autocomplete: "new-password", minlength: @minimum_password_length, aria: { describedby: ("password-hint" if @minimum_password_length) } %>
+      <% if @minimum_password_length %><p class="auth-hint" id="password-hint">Не менее <%= @minimum_password_length %> символов</p><% end %>
+    </div>
+    <div class="auth-field">
+      <%= f.label :password_confirmation, "Повтори пароль" %>
+      <%= f.password_field :password_confirmation, required: true, autocomplete: "new-password" %>
+    </div>
+    <%= f.button type: "submit", class: "auth-submit" do %>
+      <span>зарегистрироваться</span><%= image_tag "black_arrow.svg", alt: "", class: "design-arrow" %>
     <% end %>
-    <p><%= f.password_field :password, autocomplete: "new-password" %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :password_confirmation %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
+  <% end %>
+  <p class="auth-switch">Уже есть аккаунт? <%= link_to "Войти", new_session_path(resource_name) %></p>
 <% end %>
-
-<%= render "devise/shared/links" %>

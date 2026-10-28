@@ -7,11 +7,13 @@
     <ul><% @record.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
   </div>
 <% end %>
-<%= form_with model: [:admin, @record], class: "admin-editor" do |form| %>
+<%# This form submits to both save and preview URLs, so use a session token rather than a per-action token. %>
+<%= form_with model: [:admin, @record], class: "admin-editor", authenticity_token: form_authenticity_token do |form| %>
   <% resource_fields.each do |name, label, type| %>
     <div class="field<%= " field--checkbox" if type == "boolean" %>">
-      <%= form.label name, label %>
-      <% if type == "textarea" %><%= form.text_area name, rows: name == :body ? 12 : 4 %>
+      <%= form.label name, label, id: "#{form.object_name}_#{name}_label" %>
+      <% if type == "rich_text" %><%= render "admin/articles/rich_text", form: form, name: name %>
+      <% elsif type == "textarea" %><%= form.text_area name, rows: name == :body ? 12 : 4 %>
       <% elsif type == "boolean" %><%= form.check_box name %>
       <% elsif type == "number" %><%= form.number_field name, min: 0 %>
       <% elsif type == "date" %><%= form.date_field name %>
@@ -25,6 +27,9 @@
   <%= render "admin/quizzes/questions", form: form if @record.is_a?(Quiz) %>
   <div class="admin-form-actions">
     <%= form.submit "Сохранить", class: "admin-button" %>
+    <% if @record.is_a?(Article) || @record.is_a?(Quiz) %>
+      <%= button_tag "Превью", type: "submit", class: "admin-button admin-button--secondary", formaction: admin_preview_path(@record), formtarget: "_blank", formnovalidate: true, data: { turbo: false } %>
+    <% end %>
     <%= link_to "Вернуться к списку", url_for(action: :index), class: "admin-button admin-button--secondary" %>
   </div>
 <% end %>

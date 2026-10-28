@@ -64,6 +64,55 @@ class AdminTest < ActionDispatch::IntegrationTest
     assert Category.exists?(slug: "new")
   end
 
+  test "article form offers a visual editor and preserves formatted content" do
+    sign_in @admin
+    get new_admin_article_path
+    assert_response :success
+    assert_select "[data-controller='rich-text']"
+    assert_select "select.ql-header option[value='2']", "Заголовок 2"
+    assert_select "select.ql-size option[value='28px']", "28"
+    assert_select "button.ql-bold[type='button']"
+
+    post admin_articles_path, params: { article: { title: "Formatted", user_id: @admin.id,
+      category_id: @category.id, body_format: "html",
+      body: '<h2>Заголовок</h2><p><strong>Текст</strong> <span style="font-size: 28px">крупнее</span></p><ul><li>Пункт</li></ul>' } }
+    article = Article.last
+    assert_redirected_to edit_admin_article_path(article)
+    assert_equal "html", article.body_format
+    assert_includes article.body, "<h2>Заголовок</h2>"
+    assert_includes article.body, "<strong>Текст</strong>"
+    assert_includes article.body, "font-size:28px"
+    assert_includes article.body, "<li>Пункт</li>"
+
+    get edit_admin_article_path(article)
+    assert_response :success
+    assert_select "input[name='article[body_format]'][value='html']"
+  end
+
+  test "formatted article bodies remove unsafe HTML and reject empty formatting" do
+    sign_in @admin
+    post admin_articles_path, params: { article: { title: "Safe", user_id: @admin.id,
+      category_id: @category.id, body_format: "html",
+      body: '<p onclick="alert(1)">Текст <a href="javascript:alert(1)">ссылка</a><img src=x onerror="alert(1)"></p>' } }
+    assert_response :redirect
+    assert_equal "<p>Текст <a>ссылка</a></p>", Article.last.body
+
+    assert_no_difference "Article.count" do
+      post admin_articles_path, params: { article: { title: "Empty", user_id: @admin.id,
+        category_id: @category.id, body_format: "html", body: "<p><br></p>" } }
+    end
+    assert_response :unprocessable_content
+  end
+
+  test "editing legacy article metadata preserves its Markdown" do
+    sign_in @admin
+    article = Article.create!(title: "Legacy", user: @admin, category: @category, body: "## Заголовок\n\n**Текст**")
+    patch admin_article_path(article), params: { article: { title: "Updated", body: article.body, body_format: "markdown" } }
+    assert_response :redirect
+    assert_equal "markdown", article.reload.body_format
+    assert_equal "## Заголовок\n\n**Текст**", article.body
+  end
+
   test "quiz nested creation editing adding questions removing questions and deletion" do
     sign_in @admin
     post admin_quizzes_path, params: { quiz: quiz_params }

@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
   namespace :admin do
     root "dashboard#index"
-    resources :articles, except: :show
+    resources :articles, except: :show do
+      match :preview, on: :member, via: %i[get post patch]
+      post :preview, on: :collection
+    end
     resources :categories, only: %i[index new create destroy]
-    resources :quizzes, except: :show
+    resources :quizzes, except: :show do
+      match :preview, on: :member, via: %i[get post patch]
+      post :preview, on: :collection
+    end
+    resources :subscribers, only: :index
   end
 
   resources :subscribers, only: :create

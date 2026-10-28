@@ -1,0 +1,14 @@
+<%= render "admin/resources/preview_heading" %>
+<article class="admin-preview">
+  <% if (cover = admin_preview_cover(@record)) %><%= image_tag cover, alt: "", class: "admin-preview__cover", referrerpolicy: "no-referrer" %><% end %>
+  <header class="admin-preview__heading">
+    <p class="admin-eyebrow"><%= @record.category&.name.presence || "Без категории" %></p>
+    <h2><%= @record.title.presence || "Без заголовка" %></h2>
+    <% if @record.excerpt.present? %><p class="admin-preview__description"><%= @record.excerpt %></p><% end %>
+    <p class="admin-preview__meta"><%= @record.user&.display_name %></p>
+  </header>
+  <div class="admin-preview__body" data-controller="article-preview" data-article-preview-format-value="<%= @record.body_format %>">
+    <textarea data-article-preview-target="source" hidden><%= @record.body %></textarea>
+    <div data-article-preview-target="content"><%= simple_format(@record.body) %></div>
+  </div>
+</article>

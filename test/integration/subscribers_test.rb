@@ -7,16 +7,16 @@ class SubscribersTest < ActionDispatch::IntegrationTest
     assert_select "form[action=?][method=post]", subscribers_path
     assert_select "input[type=email][name=email][required]"
     assert_select "input[type=checkbox][name=consent][required]:not([checked])"
-    assert_select "input[type=checkbox][name=marketing_consent]:not([required]):not([checked])"
+    assert_select "input[type=checkbox][name=marketing_consent][required]:not([checked])"
   end
 
   test "guest subscribes and sees confirmation" do
     assert_difference "NewsletterSubscriber.count", 1 do
-      post subscribers_path, params: { email: " EXAMPLE@Mail.ru ", consent: "1" }
+      post subscribers_path, params: { email: " EXAMPLE@Mail.ru ", consent: "1", marketing_consent: "1" }
     end
     assert_equal "example@mail.ru", NewsletterSubscriber.last.email
     assert NewsletterSubscriber.last.personal_data_consent_at.present?
-    assert_nil NewsletterSubscriber.last.marketing_consent_at
+    assert NewsletterSubscriber.last.marketing_consent_at.present?
     assert_redirected_to root_path
     follow_redirect!
     assert_select "[role=status]", "Спасибо! Вы подписались."
@@ -46,23 +46,33 @@ class SubscribersTest < ActionDispatch::IntegrationTest
   test "invalid addresses are rejected" do
     [ "", "invalid" ].each do |email|
       assert_no_difference "NewsletterSubscriber.count" do
-        post subscribers_path, params: { email: email, consent: "1" }
+        post subscribers_path, params: { email: email, consent: "1", marketing_consent: "1" }
       end
       follow_redirect!
       assert_select "[role=alert]", "Не удалось подписаться. Проверьте адрес."
     end
   end
 
+  test "marketing consent is required on the server" do
+    [ nil, "0", "true" ].each do |consent|
+      assert_no_difference "NewsletterSubscriber.count" do
+        post subscribers_path, params: { email: "example@mail.ru", consent: "1", marketing_consent: consent }
+      end
+      follow_redirect!
+      assert_select "[role=alert]", "Нужно согласие на получение рассылки."
+    end
+  end
+
   test "duplicate address displays an already subscribed notice" do
     subscriber = NewsletterSubscriber.subscribe!(email: "example@mail.ru", personal_data_consent: true)
     assert_no_difference "NewsletterSubscriber.count" do
-      post subscribers_path, params: { email: " EXAMPLE@MAIL.RU ", consent: "1" }
+      post subscribers_path, params: { email: " EXAMPLE@MAIL.RU ", consent: "1", marketing_consent: "1" }
     end
     assert_redirected_to root_path
     follow_redirect!
     assert_select "[role=status]", "Вы уже подписались на уведомления"
     assert_select "[role=alert]", count: 0
-    assert_nil subscriber.reload.marketing_consent_at
+    assert subscriber.reload.marketing_consent_at.present?
     assert_raises(ActiveRecord::RecordNotUnique) do
       NewsletterSubscriber.insert_all!([ { email: "example@mail.ru", personal_data_consent_at: Time.current } ])
     end

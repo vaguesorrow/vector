@@ -23,6 +23,7 @@
             <td>
               <div class="admin-table__actions">
                 <% unless record.is_a?(Category) %>
+                  <%= link_to "Превью", admin_preview_path(record), class: "admin-button admin-button--secondary", target: "_blank", rel: "noopener" %>
                   <%= link_to "Редактировать", url_for(action: :edit, id: record.id), class: "admin-button admin-button--secondary" %>
                 <% end %>
                 <%= button_to "Удалить", url_for(action: :destroy, id: record.id), method: :delete, class: "admin-button admin-button--danger", form: { data: { turbo_confirm: "Удалить запись?" } } %>

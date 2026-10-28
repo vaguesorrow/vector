@@ -40,6 +40,12 @@ module Admin
       render "admin/resources/form"
     end
 
+    def preview
+      @record = params[:id].present? ? resource_model.find(params[:id]) : resource_model.new
+      @record.assign_attributes(record_params) unless request.get?
+      render "admin/#{controller_name}/preview"
+    end
+
     def update
       @record.assign_attributes(record_params)
       persist_record(:save)

@@ -1,0 +1,24 @@
+<% content_for :title, "Вход — Вектор" %>
+<%= render layout: "devise/shared/auth_frame", locals: { heading: "снова на связи", description: "Заходи в свой аккаунт. Продолжим путь к поступлению вместе.", form_label: "Вход в аккаунт" } do %>
+  <h2>войти в аккаунт</h2>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "auth-form" }) do |f| %>
+    <div class="auth-field">
+      <%= f.label :email, "Электронная почта" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true %>
+    </div>
+    <div class="auth-field">
+      <%= f.label :password, "Пароль" %>
+      <%= f.password_field :password, autocomplete: "current-password", required: true %>
+    </div>
+    <div class="auth-options">
+      <% if devise_mapping.rememberable? %>
+        <label class="auth-checkbox"><%= f.check_box :remember_me %><span>Запомнить меня</span></label>
+      <% end %>
+      <%= link_to "Забыли пароль?", new_password_path(resource_name) if devise_mapping.recoverable? %>
+    </div>
+    <%= f.button type: "submit", class: "auth-submit" do %>
+      <span>войти</span><%= image_tag "black_arrow.svg", alt: "", class: "design-arrow" %>
+    <% end %>
+  <% end %>
+  <p class="auth-switch">Ещё нет аккаунта? <%= link_to "Зарегистрироваться", new_registration_path(resource_name) %></p>
+<% end %>

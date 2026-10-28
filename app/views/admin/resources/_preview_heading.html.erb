@@ -1,0 +1,10 @@
+<div class="admin-page-heading">
+  <div>
+    <p class="admin-eyebrow">предпросмотр · <%= @record.is_a?(Article) ? "статья" : "тест" %></p>
+    <h1>Превью</h1>
+    <p class="admin-description">Изменения не сохраняются. Эта страница доступна только администратору.</p>
+  </div>
+  <% if @record.persisted? %>
+    <%= link_to "К редактированию", url_for(action: :edit, id: @record.id), class: "admin-button admin-button--secondary" %>
+  <% end %>
+</div>

@@ -515,3 +515,84 @@
     padding: calc(18 * var(--admin-unit));
   }
 }
+
+.admin-rich-text [hidden] { display: none !important; }
+.admin-rich-text__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid #000;
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  background: #fff8c4;
+}
+.admin .admin-editor .admin-rich-text .admin-rich-text__toolbar select,
+.admin-rich-text__toolbar button {
+  width: auto;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid #000;
+  border-radius: 6px;
+  background: #fff;
+  color: #000;
+  font: 18px/1.2 "Arial Narrow", Arial, sans-serif;
+  cursor: pointer;
+}
+.admin-rich-text__toolbar button:hover,
+.admin-rich-text__toolbar button.ql-active { background: var(--admin-yellow); }
+.admin-rich-text__toolbar .ql-bold { font-weight: 700; }
+.admin-rich-text__toolbar .ql-italic { font-style: italic; }
+.admin-rich-text__toolbar .ql-underline { text-decoration: underline; }
+.admin-rich-text__toolbar .ql-strike { text-decoration: line-through; }
+.admin-rich-text .ql-container {
+  border: 1px solid #000;
+  border-radius: 0 0 12px 12px;
+  background: #fff;
+  font: 18px/1.6 "Arial Narrow", Arial, sans-serif;
+}
+.admin-rich-text .ql-editor { min-height: 360px; padding: 20px; overflow-wrap: anywhere; }
+.admin-rich-text .ql-editor .ql-font-fyl { font-family: "fyl", sans-serif; font-synthesis: none; }
+.admin-rich-text .ql-editor :is(h1, h2, h3) { font-family: inherit; font-weight: 700; line-height: 1.25; }
+.admin-rich-text .ql-editor h1 { font-size: 2em; }
+.admin-rich-text .ql-editor h2 { font-size: 1.5em; }
+.admin-rich-text .ql-editor h3 { font-size: 1.17em; }
+.admin-rich-text .ql-editor p { margin: 0; }
+.admin-rich-text .ql-editor a { color: #000; text-decoration: underline; }
+.admin-rich-text .ql-editor blockquote { margin-block: 12px; padding-left: 16px; border-left: 3px solid #000; }
+.admin .admin-rich-text__hint { margin: 12px 0 0; font-size: 16px; }
+
+.admin-preview {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 56px);
+  border: 1px solid #000;
+  border-radius: 20px;
+  overflow-wrap: anywhere;
+}
+.admin-preview__cover { display: block; width: 100%; max-height: 420px; object-fit: cover; border-radius: 12px; margin-bottom: 32px; }
+.admin-preview__heading { margin-bottom: 32px; }
+.admin-preview__heading h2 { font-size: clamp(28px, 3vw, 44px); }
+.admin-preview__description { font-size: 24px; line-height: 1.4; white-space: pre-line; }
+.admin-preview__meta { font-size: 18px; }
+.admin-preview__body .ql-container { font: 18px/1.6 "Arial Narrow", Arial, sans-serif; }
+.admin-preview__body .ql-editor { padding: 0; overflow: visible; white-space: pre-wrap; }
+.admin-preview__body .ql-editor :is(h1, h2, h3) { font-family: inherit; font-weight: 700; line-height: 1.25; }
+.admin-preview__body .ql-editor h1 { font-size: 2em; }
+.admin-preview__body .ql-editor h2 { font-size: 1.5em; }
+.admin-preview__body .ql-editor h3 { font-size: 1.17em; }
+.admin-preview__body .ql-editor p { margin: 0; }
+.admin-preview__body .ql-editor .ql-font-fyl { font-family: "fyl", sans-serif; font-synthesis: none; }
+.admin-preview__body .ql-editor a { text-decoration: underline; }
+.admin-preview__body .ql-editor blockquote { margin-block: 12px; padding-left: 16px; border-left: 3px solid #000; }
+.admin-preview__question { min-width: 0; margin: 0 0 28px; padding: 20px; border: 1px solid #000; border-radius: 12px; }
+.admin-preview__question legend { max-width: 100%; padding: 0 8px; font: 700 24px/1.3 "Arial Narrow", Arial, sans-serif; white-space: pre-wrap; }
+.admin .admin-preview__answer { display: flex; align-items: baseline; gap: 12px; margin: 12px 0 0; padding: 12px; border: 1px solid #000; border-radius: 10px; font-size: 20px; cursor: pointer; }
+.admin-preview__answer input { flex-shrink: 0; accent-color: #000; }
+.admin-preview__answer span { white-space: pre-wrap; }
+.admin-preview__answer:has(input:checked) { outline: 2px solid #000; outline-offset: 2px; }
+.admin-preview__answer--correct { background: var(--admin-yellow); }
+.admin-preview__feedback { margin-top: 20px; font-size: 20px; }
+.admin-preview__feedback p:last-child { margin-bottom: 0; }
+.admin .admin-preview__result { margin: 20px 0 0; font-size: 20px; }

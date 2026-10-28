@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_28_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_28_010000) do
   create_table "answer_options", force: :cascade do |t|
     t.bigint "quiz_question_id", null: false
     t.text "body", null: false
@@ -43,6 +43,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_28_000000) do
     t.datetime "published_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "body_format", default: "markdown", null: false
     t.index ["category_id"], name: "index_articles_on_category_id"
     t.index ["user_id"], name: "index_articles_on_user_id"
     t.check_constraint "published = 0 OR published_at IS NOT NULL", name: "published_articles_have_date"

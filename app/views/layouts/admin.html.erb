@@ -26,6 +26,7 @@
       <%= link_to "Статьи", admin_articles_path, aria: { current: controller_name == "articles" ? "page" : nil } %>
       <%= link_to "Категории", admin_categories_path, aria: { current: controller_name == "categories" ? "page" : nil } %>
       <%= link_to "Тесты", admin_quizzes_path, aria: { current: controller_name == "quizzes" ? "page" : nil } %>
+      <%= link_to "Подписчики", admin_subscribers_path, aria: { current: controller_name == "subscribers" ? "page" : nil } %>
     </nav>
     <main class="admin-main" id="admin-content">
       <% if notice.present? %><p class="notice" role="status"><%= notice %></p><% end %>

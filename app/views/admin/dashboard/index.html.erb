@@ -24,4 +24,10 @@
     <p>Вопросы, четыре варианта ответа и один правильный.</p>
     <span class="admin-dashboard__link">к тестам <%= image_tag "black_arrow.svg", alt: "" %></span>
   <% end %>
+  <%= link_to admin_subscribers_path, class: "admin-dashboard__card" do %>
+    <span class="admin-dashboard__number">04</span>
+    <h2>Подписчики</h2>
+    <p>Почта и даты заявок на рассылку.</p>
+    <span class="admin-dashboard__link">к подписчикам <%= image_tag "black_arrow.svg", alt: "" %></span>
+  <% end %>
 </div>

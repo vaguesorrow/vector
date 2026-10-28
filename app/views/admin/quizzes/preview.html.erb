@@ -1,0 +1,29 @@
+<%= render "admin/resources/preview_heading" %>
+<article class="admin-preview" data-controller="quiz-preview">
+  <% if (cover = admin_preview_cover(@record)) %><%= image_tag cover, alt: "", class: "admin-preview__cover", referrerpolicy: "no-referrer" %><% end %>
+  <header class="admin-preview__heading">
+    <h2><%= @record.title.presence || "Без названия" %></h2>
+    <div class="admin-preview__description"><%= simple_format(@record.description) %></div>
+  </header>
+  <% questions = @record.quiz_questions.reject(&:marked_for_destruction?).sort_by { |question| question.position.to_i } %>
+  <% if questions.empty? %><p>В тесте пока нет вопросов.</p><% end %>
+  <% questions.each_with_index do |question, index| %>
+    <fieldset class="admin-preview__question" data-quiz-preview-target="question">
+      <legend><%= index + 1 %>. <%= question.body.presence || "Без текста вопроса" %></legend>
+      <% question.answer_options.reject(&:marked_for_destruction?).sort_by { |option| option.position.to_i }.each_with_index do |option, option_index| %>
+        <label class="admin-preview__answer">
+          <input type="radio" name="preview_answer_<%= index %>" value="<%= option_index %>" data-correct="<%= option.correct? %>" data-action="quiz-preview#reset">
+          <span><%= option.body.presence || "Без текста ответа" %></span>
+        </label>
+      <% end %>
+      <div class="admin-preview__feedback" hidden>
+        <p data-answer-result></p>
+        <% if question.explanation.present? %><div><%= simple_format(question.explanation) %></div><% end %>
+      </div>
+    </fieldset>
+  <% end %>
+  <% if questions.any? %>
+    <button type="button" class="admin-button" data-action="quiz-preview#check">Проверить ответы</button>
+    <p class="admin-preview__result" data-quiz-preview-target="result" role="status" aria-live="polite"></p>
+  <% end %>
+</article>

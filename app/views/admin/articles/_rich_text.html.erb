@@ -1,0 +1,43 @@
+<div class="admin-rich-text" data-controller="rich-text">
+  <%= form.text_area name, rows: 12, data: { rich_text_target: "input" } %>
+  <%= form.hidden_field :body_format, data: { rich_text_target: "format" } %>
+  <div data-rich-text-target="controls" hidden>
+    <div class="admin-rich-text__toolbar" data-rich-text-target="toolbar" role="toolbar" aria-label="Форматирование текста">
+      <select class="ql-header" aria-label="Тип абзаца" title="Тип абзаца">
+        <option value="" selected>Абзац</option>
+        <option value="1">Заголовок 1</option>
+        <option value="2">Заголовок 2</option>
+        <option value="3">Заголовок 3</option>
+      </select>
+      <select class="ql-font" aria-label="Шрифт" title="Шрифт">
+        <option value="" selected>Arial Narrow</option>
+        <option value="fyl">fyl</option>
+      </select>
+      <select class="ql-size" aria-label="Размер шрифта" title="Размер шрифта">
+        <option value="14px">14</option>
+        <option value="" selected>18</option>
+        <option value="22px">22</option>
+        <option value="28px">28</option>
+        <option value="36px">36</option>
+      </select>
+      <% { bold: ["Ж", "Жирный"], italic: ["К", "Курсив"], underline: ["Ч", "Подчёркнутый"], strike: ["З", "Зачёркнутый"] }.each do |format, (text, label)| %>
+        <button type="button" class="ql-<%= format %>" aria-label="<%= label %>" title="<%= label %>"><%= text %></button>
+      <% end %>
+      <button type="button" class="ql-list" value="bullet" title="Маркированный список" aria-label="Маркированный список">• список</button>
+      <button type="button" class="ql-list" value="ordered" title="Нумерованный список" aria-label="Нумерованный список">1. список</button>
+      <select class="ql-align" aria-label="Выравнивание" title="Выравнивание">
+        <option value="" selected>По левому краю</option>
+        <option value="center">По центру</option>
+        <option value="right">По правому краю</option>
+        <option value="justify">По ширине</option>
+      </select>
+      <button type="button" class="ql-blockquote" title="Цитата" aria-label="Цитата">« цитата »</button>
+      <button type="button" class="ql-link" title="Ссылка" aria-label="Ссылка">Ссылка</button>
+      <button type="button" class="ql-clean" title="Убрать форматирование" aria-label="Убрать форматирование">Сбросить</button>
+      <button type="button" data-action="rich-text#undo" title="Отменить изменение" aria-label="Отменить изменение">↶</button>
+      <button type="button" data-action="rich-text#redo" title="Повторить изменение" aria-label="Повторить изменение">↷</button>
+    </div>
+    <div data-rich-text-target="editor"></div>
+    <p class="admin-rich-text__hint">Выдели текст и выбери оформление. Enter — новый абзац.</p>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="admin-page-heading">
+  <div>
+    <p class="admin-eyebrow">рассылка вектора</p>
+    <h1>Подписчики</h1>
+    <p class="admin-description">Все, кто оставил почту на сайте. Всего заявок: <%= @total %>.</p>
+  </div>
+</div>
+<% if @subscribers.empty? %>
+  <div class="admin-empty">
+    <h2><%= @page == 1 ? "Пока нет подписчиков" : "На этой странице нет заявок" %></h2>
+    <p>Здесь появятся адреса из формы подписки на сайте.</p>
+  </div>
+<% else %>
+  <div class="admin-table" role="region" aria-label="Подписчики рассылки" tabindex="0">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Электронная почта</th>
+          <th scope="col">Дата заявки</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @subscribers.each do |subscriber| %>
+          <tr>
+            <td class="admin-table__id"><%= subscriber.id %></td>
+            <td><%= mail_to subscriber.email %></td>
+            <td><time datetime="<%= subscriber.created_at.iso8601 %>"><%= subscriber.created_at.strftime("%d.%m.%Y, %H:%M") %></time></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+<nav class="pagination" aria-label="Страницы подписчиков">
+  <% if @page > 1 %><%= link_to "← Назад", admin_subscribers_path(page: @page - 1), class: "admin-button admin-button--secondary" %><% end %>
+  <% if @more %><%= link_to "Далее →", admin_subscribers_path(page: @page + 1), class: "admin-button admin-button--secondary" %><% end %>
+</nav>

@@ -23,10 +23,11 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="<%= "public-page #{action_name == 'index' ? 'public-page--home' : 'public-page--about'}" if controller_path == "pages" %>">
+  <% auth_page = devise_controller? && %w[sessions registrations].include?(controller_name) && %w[new create].include?(action_name) %>
+  <body class="<%= auth_page ? 'public-page public-page--auth' : ("public-page #{action_name == 'index' ? 'public-page--home' : 'public-page--about'}" if controller_path == "pages") %>">
     <div class="site-content">
       <%= yield %>
     </div>
-    <%= render "shared/footer" if controller_path == "pages" %>
+    <%= render "shared/footer" if controller_path == "pages" || auth_page %>
   </body>
 </html>

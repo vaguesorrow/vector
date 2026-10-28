@@ -5,6 +5,11 @@ class SubscribersController < ApplicationController
       return
     end
 
+    if params[:marketing_consent] != "1"
+      redirect_to root_path, alert: "Нужно согласие на получение рассылки.", status: :see_other
+      return
+    end
+
     existing = NewsletterSubscriber.exists?(email: params[:email].to_s.strip.downcase)
     NewsletterSubscriber.subscribe!(email: params[:email].to_s,
       personal_data_consent: true, marketing_consent: params[:marketing_consent] == "1")
